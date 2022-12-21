@@ -199,6 +199,8 @@ body {
   max-width: 100%;
   width: var(--keyboard-width);
   padding: 0 8px 0 8px;
+  visibility: hidden;
+  /* TODO implement keyboard logic */
 }
 
 .keyboard-row {
