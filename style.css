@@ -27,6 +27,11 @@
   --key-bg-present: var(--darkendYellow);
   --key-bg-correct: var(--darkendGreen);
   --key-bg-absent: var(--color-tone-4);
+
+  --game-max-width: 500px;
+  --header-height: 66px;
+  --keyboard-height: 200px;
+  --keyboard-width: var(--game-max-width);
 }
 
 * {
@@ -41,7 +46,7 @@ body {
 }
 
 .header-container {
-  height: 66px;
+  height: var(--header-height);
   border-bottom: 1px solid var(--color-tone-2);
 }
 
@@ -88,13 +93,16 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: var(--game-max-width);
+  margin: 0 auto 0 auto;
+  height: calc(100% - var(--header-height));
 }
 
 .board-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 18px;
 }
 
 .board {
@@ -114,7 +122,6 @@ body {
   height: 62px;
   width: 62px;
   display: inline-flex;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
@@ -178,4 +185,42 @@ body {
   60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+.keyboard .spacer {
+  flex-grow: 0.5;
+}
+
+.keyboard {
+  height: var(--keyboard-height);
+  width: var(--keyboard-width);
+  margin: 8px;
+}
+
+.keyboard-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.key {
+  height: 58px;
+  margin: 0 6px 0 0;
+  background-color: var(--key-bg);
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: var(--key-text-color);
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-family: monospace;
+}
+
+.key-one-and-a-half {
+  flex-grow: 1.5;
 }
