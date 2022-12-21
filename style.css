@@ -8,8 +8,9 @@
   --color-tone-5: #272729;
   --color-tone-6: #1a1a1b;
   --color-tone-7: #121213;
-  --color-tone-9: #424242;
+  --color-tone-9: #e2e2e2;
   --green: #6aaa64;
+  --lightgreen: hsl(115, 52%, 81%);
   --darkendGreen: #538d4e;
   --yellow: #c9b458;
   --darkendYellow: #b59f3b;
@@ -41,7 +42,34 @@ body {
 
 .header-container {
   height: 66px;
-  border-bottom: 1px solid var(--color-tone-4);
+  border-bottom: 1px solid var(--color-tone-2);
+}
+
+.banner {
+  height: 45px;
+  background-color: var(--color-tone-5);
+  color: var(--color-tone-9);
+  border: 1px solid var(--color-tone-6);
+  width: 330px;
+  margin: 9px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  visibility: hidden;
+  font-weight: bold;
+}
+
+.win {
+  visibility: visible;
+  border-color: var(--green);
+  background-color: var(--darkendGreen);
+  color: var(--lightgreen);
+}
+
+.lose {
+  visibility: visible;
 }
 
 .title-container {
@@ -57,6 +85,7 @@ body {
 
 .app {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -65,13 +94,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 18px;
 }
 
 .board {
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   grid-gap: 5px;
-  padding-top: 20px;
 }
 
 .board-row {
@@ -119,7 +148,7 @@ body {
 }
 
 .grow-shrink {
-  animation: grow-shrink 0.5s ease-in;
+  animation: grow-shrink 0.4s ease-in-out;
 }
 
 @keyframes grow-shrink {

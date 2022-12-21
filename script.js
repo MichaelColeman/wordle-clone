@@ -1,7 +1,8 @@
 const letters = document.querySelectorAll('.tile');
 const boardRows = document.querySelectorAll('.board-row');
+const banner = document.querySelector('.banner');
 const ANSWER_LENGTH = 5;
-const ROUNDS = 6;
+const ROUNDS = 5;
 
 async function init() {
   //app state
@@ -27,7 +28,6 @@ async function init() {
         break;
       case 'Backspace':
         backspace();
-        console.log(e.key);
         break;
       default:
         if (isLetter(action)) {
@@ -40,7 +40,6 @@ async function init() {
 
   function backspace() {
     currentGuess = currentGuess.substring(0, currentGuess.length - 1);
-    console.log(currentGuess);
     letters[ANSWER_LENGTH * currentRow + currentGuess.length].innerText = '';
   }
 
@@ -62,12 +61,11 @@ async function init() {
     letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].classList.add(
       'grow-shrink'
     );
-    console.log(boardRows[currentRow]);
     setTimeout(() => {
       letters[
         ANSWER_LENGTH * currentRow + currentGuess.length - 1
       ].classList.remove('grow-shrink');
-    }, 850);
+    }, 200);
   }
 
   async function commit() {
@@ -86,7 +84,6 @@ async function init() {
     if (!validWord) {
       //make the board row shake if guess is incorrect
       boardRows[currentRow].classList.add('shake');
-      console.log(boardRows[currentRow]);
       setTimeout(() => {
         boardRows[currentRow].classList.remove('shake');
       }, 850);
@@ -119,15 +116,18 @@ async function init() {
     }
 
     currentRow++;
+    console.log(currentRow);
 
     // TODO validate the word
 
     if (currentGuess === word) {
-      alert("you've won");
       done = true;
+      banner.classList.add('win');
+      banner.textContent = "You've Won";
       return;
     } else if (currentRow === ROUNDS) {
-      alert("you've lost");
+      banner.classList.add('lose');
+      banner.textContent = 'Better luck next time!';
       done = true;
     }
 
