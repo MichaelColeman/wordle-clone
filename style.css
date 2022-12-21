@@ -65,20 +65,28 @@ body {
   height: 66px;
   border-bottom: 1px solid var(--color-tone-4);
 }
+
 .title-container {
   font-weight: 900;
   letter-spacing: 0.2px;
-  font-size: 28px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
 
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .board-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 300px;
 }
 
 .board {
@@ -87,6 +95,7 @@ body {
   grid-gap: 5px;
   padding-top: 20px;
 }
+
 .board-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -95,17 +104,16 @@ body {
 
 .tile {
   border: 2px solid var(--color-tone-4);
+  height: 50px;
+  width: 50px;
   display: inline-flex;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  /* flex-grow: 1; */
   justify-content: center;
   align-items: center;
   font-size: 2rem;
   line-height: 1;
   font-weight: bold;
   vertical-align: middle;
-  /* width: 100%; */
-  text-transform: uppercase;
   padding: 20px;
 }
 
@@ -116,14 +124,17 @@ body {
 
 .correct {
   background-color: var(--key-bg-correct);
+  border-color: var(--key-bg-correct);
 }
 
 .close {
   background-color: var(--key-bg-present);
+  border-color: var(--key-bg-present);
 }
 
 .wrong {
   background-color: var(--key-bg-absent);
+  border-color: var(--key-bg-absent);
 }
 
 .shake {
@@ -153,5 +164,15 @@ body {
   40%,
   60% {
     transform: translate3d(4px, 0, 0);
+  }
+}
+
+.grow-shrink {
+  animation: grow-shrink 0.5s ease-in;
+}
+
+@keyframes grow-shrink {
+  50% {
+    transform: scale(1.1);
   }
 }

@@ -54,9 +54,20 @@ async function init() {
         currentGuess.substring(0, currentGuess.length - 1) + letter;
     }
 
-    //this chooses which box to place each character in the users current guess
+    //draws the character to the screen
     letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].innerText =
       letter;
+
+    //adds a small animation when adding a letter
+    letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].classList.add(
+      'grow-shrink'
+    );
+    console.log(boardRows[currentRow]);
+    setTimeout(() => {
+      letters[
+        ANSWER_LENGTH * currentRow + currentGuess.length - 1
+      ].classList.remove('grow-shrink');
+    }, 850);
   }
 
   async function commit() {
@@ -78,7 +89,7 @@ async function init() {
       console.log(boardRows[currentRow]);
       setTimeout(() => {
         boardRows[currentRow].classList.remove('shake');
-      }, 750);
+      }, 850);
       return;
     }
 
