@@ -1,10 +1,12 @@
 const letters = document.querySelectorAll('.tile');
 const ANSWER_LENGTH = 5;
+const ROUNDS = 6;
 
 async function init() {
   //app state
   let currentGuess = '';
   let currentRow = 0;
+  let done = false;
 
   //grab word of the day
   const res = await fetch('https://words.dev-apis.com/word-of-the-day');
@@ -14,6 +16,10 @@ async function init() {
   console.log(word);
 
   document.addEventListener('keydown', (e) => {
+    if (done) {
+      return;
+    }
+
     const action = e.key;
     switch (action) {
       case 'Enter':
@@ -58,10 +64,6 @@ async function init() {
       return;
     }
 
-    if (currentGuess === word) {
-      alert("you've won");
-    }
-
     const guessParts = currentGuess.split('');
     const map = makeMap(wordParts);
 
@@ -87,11 +89,19 @@ async function init() {
       }
     }
 
+    currentRow++;
+    currentGuess = '';
+
     // TODO validate the word
     // TODO did they win or lose?
 
-    currentRow++;
-    currentGuess = '';
+    if (currentGuess === word) {
+      alert("you've won");
+      done = true;
+    } else if (currentRow === ROUNDS) {
+      alert('try again');
+      done = true;
+    }
   }
 
   function makeMap(array) {
