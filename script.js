@@ -1,4 +1,5 @@
 const letters = document.querySelectorAll('.tile');
+const boardRows = document.querySelectorAll('.board-row');
 const ANSWER_LENGTH = 5;
 const ROUNDS = 6;
 
@@ -7,7 +8,6 @@ async function init() {
   let currentGuess = '';
   let currentRow = 0;
   let done = false;
-
   //grab word of the day
   const res = await fetch('https://words.dev-apis.com/word-of-the-day');
   const resObj = await res.json();
@@ -64,6 +64,24 @@ async function init() {
       return;
     }
 
+    const res = await fetch('https://words.dev-apis.com/validate-word', {
+      method: 'POST',
+      body: JSON.stringify({ word: currentGuess }),
+    });
+
+    const resObj = await res.json();
+    const validWord = resObj.validWord;
+    //check the guess
+    if (!validWord) {
+      //make the board row shake if guess is incorrect
+      boardRows[currentRow].classList.add('shake');
+      console.log(boardRows[currentRow]);
+      setTimeout(() => {
+        boardRows[currentRow].classList.remove('shake');
+      }, 750);
+      return;
+    }
+
     const guessParts = currentGuess.split('');
     const map = makeMap(wordParts);
 
@@ -90,18 +108,19 @@ async function init() {
     }
 
     currentRow++;
-    currentGuess = '';
 
     // TODO validate the word
-    // TODO did they win or lose?
 
     if (currentGuess === word) {
       alert("you've won");
       done = true;
+      return;
     } else if (currentRow === ROUNDS) {
-      alert('try again');
+      alert("you've lost");
       done = true;
     }
+
+    currentGuess = '';
   }
 
   function makeMap(array) {
