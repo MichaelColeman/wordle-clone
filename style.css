@@ -113,3 +113,15 @@ body {
   font-size: 2rem;
   line-height: 1;
 }
+
+.correct {
+  background-color: var(--key-bg-correct);
+}
+
+.close {
+  background-color: var(--key-bg-present);
+}
+
+.wrong {
+  background-color: var(--key-bg-absent);
+}
