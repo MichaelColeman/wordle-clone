@@ -2,7 +2,7 @@ const letters = document.querySelectorAll('.tile');
 const boardRows = document.querySelectorAll('.board-row');
 const banner = document.querySelector('.banner');
 const ANSWER_LENGTH = 5;
-const ROUNDS = 5;
+const ROUNDS = 6;
 
 async function init() {
   //app state
