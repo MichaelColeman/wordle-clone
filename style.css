@@ -8,45 +8,24 @@
   --color-tone-5: #272729;
   --color-tone-6: #1a1a1b;
   --color-tone-7: #121213;
-  --color-tone-8: #ffffff;
   --color-tone-9: #424242;
-  --color-tone-10: #dfdfdf;
-  --color-tone-11: #dfdfdf;
-  --color-tone-12: #dfdfdf;
-  --color-nav-hover: #2f2f31;
-  --opacity-50: rgba(0, 0, 0, 0.5);
   --green: #6aaa64;
   --darkendGreen: #538d4e;
   --yellow: #c9b458;
   --darkendYellow: #b59f3b;
-  --spellingBeeYellow: #f7da21;
   --lightGray: #d3d6da;
-  --gray: #86888a;
-  --gray-2: #dcdcdc;
-  --gray-3: #dfdfdf;
-  --gray-4: #cccccc;
-  --darkGray: #939598;
-  --white: #fff;
-  --black: #212121;
-  --black-2: #121212;
-  --black-3: #363636;
-  --black-4: #cfcfcf;
-  --blue-2: #477aaa;
   --orange: #f5793a;
+  --blue-2: #477aaa;
   --blue: #85c0f9;
   --outlineBlue: #2671dc;
   --linkBlue: #477aaa;
-  --color-present: var(--darkendYellow);
-  --color-correct: var(--darkendGreen);
-  --color-absent: var(--color-tone-4);
   --tile-text-color: var(--color-tone-1);
   --key-text-color: var(--color-tone-1);
   --key-evaluated-text-color: var(--color-tone-1);
   --key-bg: var(--color-tone-2);
-  --key-bg-present: var(--color-present);
-  --key-bg-correct: var(--color-correct);
-  --key-bg-absent: var(--color-absent);
-  --modal-content-bg: var(--color-tone-7);
+  --key-bg-present: var(--darkendYellow);
+  --key-bg-correct: var(--darkendGreen);
+  --key-bg-absent: var(--color-tone-4);
 }
 
 * {
@@ -58,7 +37,6 @@
 body {
   font-family: 'Playfair Display', serif;
   background-color: var(--color-tone-7);
-  color: var(--color-tone-1);
 }
 
 .header-container {
@@ -74,6 +52,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
+  color: var(--color-tone-1);
 }
 
 .app {
@@ -86,7 +65,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
 }
 
 .board {
@@ -104,8 +82,8 @@ body {
 
 .tile {
   border: 2px solid var(--color-tone-4);
-  height: 50px;
-  width: 50px;
+  height: 62px;
+  width: 62px;
   display: inline-flex;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   justify-content: center;
@@ -115,11 +93,7 @@ body {
   font-weight: bold;
   vertical-align: middle;
   padding: 20px;
-}
-
-.tile-input {
-  font-size: 2rem;
-  line-height: 1;
+  color: var(--tile-text-color);
 }
 
 .correct {
@@ -144,6 +118,16 @@ body {
   perspective: 1000px;
 }
 
+.grow-shrink {
+  animation: grow-shrink 0.5s ease-in;
+}
+
+@keyframes grow-shrink {
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 @keyframes shake {
   10%,
   90% {
@@ -164,15 +148,5 @@ body {
   40%,
   60% {
     transform: translate3d(4px, 0, 0);
-  }
-}
-
-.grow-shrink {
-  animation: grow-shrink 0.5s ease-in;
-}
-
-@keyframes grow-shrink {
-  50% {
-    transform: scale(1.1);
   }
 }
