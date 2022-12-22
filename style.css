@@ -132,17 +132,32 @@ body {
   color: var(--tile-text-color);
 }
 
-.correct {
+.tile.correct {
   background-color: var(--key-bg-correct);
   border-color: var(--key-bg-correct);
 }
 
-.close {
+.key.correct {
+  background-color: var(--key-bg-correct);
+  border-color: var(--key-bg-correct);
+}
+
+.tile.close {
   background-color: var(--key-bg-present);
   border-color: var(--key-bg-present);
 }
 
-.wrong {
+.key.close {
+  background-color: var(--key-bg-present);
+  border-color: var(--key-bg-present);
+}
+
+.tile.wrong {
+  background-color: var(--key-bg-absent);
+  border-color: var(--key-bg-absent);
+}
+
+.key.wrong {
   background-color: var(--key-bg-absent);
   border-color: var(--key-bg-absent);
 }

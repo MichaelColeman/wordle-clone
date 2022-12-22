@@ -123,26 +123,50 @@ async function init() {
     //it will decrement the amount of that letter remaining from the map.
     for (let i = 0; i < ANSWER_LENGTH; i++) {
       if (guessParts[i] === wordParts[i]) {
-        //mark as correct
+        //add color class to letter tile
         letters[currentRow * ANSWER_LENGTH + i].classList.add('correct');
+
+        //add color class to keyboard key
+        onscreenKeyboardButtons.forEach((key) => {
+          if (key.dataset.key.toUpperCase() === guessParts[i]) {
+            key.classList.add('correct');
+          }
+        });
         map[guessParts[i]]--;
       }
     }
 
-    //marksthe letters as close or wrong
+    //mark the letters as close or wrong
     for (let i = 0; i < ANSWER_LENGTH; i++) {
       if (guessParts[i] === wordParts[i]) {
         // do nothing
       } else if (wordParts.includes(guessParts[i]) && map[guessParts[i]] > 0) {
+        //add color class to letter tile
         letters[currentRow * ANSWER_LENGTH + i].classList.add('close');
+
+        //add color class to keyboard key
+        onscreenKeyboardButtons.forEach((key) => {
+          if (key.dataset.key.toUpperCase() === guessParts[i]) {
+            key.classList.add('close');
+          }
+        });
         map[guessParts[i]]--;
       } else {
+        //add color class to letter tile
         letters[currentRow * ANSWER_LENGTH + i].classList.add('wrong');
+
+        //add color class to keyboard key
+        onscreenKeyboardButtons.forEach((key) => {
+          if (key.dataset.key === guessParts[i]) {
+            key.classList.add('wrong');
+            //disable the key at this location
+            key.disabled = true;
+          }
+        });
       }
     }
 
     currentRow++;
-    console.log(currentRow);
 
     // TODO validate the word
 
