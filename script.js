@@ -1,6 +1,7 @@
 const letters = document.querySelectorAll('.tile');
 const boardRows = document.querySelectorAll('.board-row');
 const banner = document.querySelector('.banner');
+const onscreenKeyboardButtons = document.querySelectorAll('.key');
 const ANSWER_LENGTH = 5;
 const ROUNDS = 6;
 
@@ -9,12 +10,37 @@ async function init() {
   let currentGuess = '';
   let currentRow = 0;
   let done = false;
+
   //grab word of the day
   const res = await fetch('https://words.dev-apis.com/word-of-the-day');
   const resObj = await res.json();
   const word = resObj.word.toUpperCase();
   const wordParts = word.split('');
   console.log(word);
+
+  //add event listeners to onscreen keyboard buttons
+  Array.from(onscreenKeyboardButtons).forEach((key) => {
+    key.addEventListener('click', (event) => {
+      let input = event.target.dataset.key;
+
+      switch (true) {
+        case isLetter(input):
+          addLetter(input.toUpperCase());
+          // console.log(input);
+          break;
+        case input === '↵':
+          commit();
+          // console.log(`${input}: commit();`);
+          break;
+        case input === '←':
+          backspace();
+          // console.log(`${input}: backspace();`);
+          break;
+        default:
+          console.log('error in event listener delegation');
+      }
+    });
+  });
 
   document.addEventListener('keydown', (e) => {
     if (done) {
