@@ -1,22 +1,33 @@
 const letters = document.querySelectorAll('.tile');
 const boardRows = document.querySelectorAll('.board-row');
-const banner = document.querySelector('.banner');
 const onscreenKeyboardButtons = document.querySelectorAll('.key');
+const banner = document.querySelector('.banner');
+const API_URL = 'https://words.dev-apis.com/word-of-the-day';
 const ANSWER_LENGTH = 5;
 const ROUNDS = 6;
 
 async function init() {
-  //app state
+  // initial game state
   let currentGuess = '';
   let currentRow = 0;
   let done = false;
+  let correctWord = '';
 
-  //grab word of the day
-  const res = await fetch('https://words.dev-apis.com/word-of-the-day');
-  const resObj = await res.json();
-  const word = resObj.word.toUpperCase();
-  const wordParts = word.split('');
-  console.log(word);
+  // retrieve the current word
+  getWordOfDay().then((word) => {
+    correctWord = word;
+    console.log(correctWord);
+  });
+
+  async function getWordOfDay() {
+    try {
+      const response = await fetch(API_URL);
+      const responseData = await response.json();
+      return responseData.word.toUpperCase();
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   //add event listeners to onscreen keyboard buttons
   Array.from(onscreenKeyboardButtons).forEach((key) => {
@@ -75,22 +86,16 @@ async function init() {
     if (currentGuess.length < ANSWER_LENGTH) {
       currentGuess += letter;
     } else {
-      currentGuess =
-        currentGuess.substring(0, currentGuess.length - 1) + letter;
+      currentGuess = currentGuess.substring(0, currentGuess.length - 1) + letter;
     }
 
     //draws the character to the screen
-    letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].innerText =
-      letter;
+    letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].innerText = letter;
 
     //adds a small animation when adding a letter
-    letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].classList.add(
-      'grow-shrink'
-    );
+    letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].classList.add('grow-shrink');
     setTimeout(() => {
-      letters[
-        ANSWER_LENGTH * currentRow + currentGuess.length - 1
-      ].classList.remove('grow-shrink');
+      letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].classList.remove('grow-shrink');
     }, 200);
   }
 
@@ -117,6 +122,8 @@ async function init() {
     }
 
     const guessParts = currentGuess.split('');
+    const wordParts = correctWord.split('');
+    // console.log(wordParts);
     const map = makeMap(wordParts);
 
     //mark the letters as correct. and when it does,
@@ -170,7 +177,7 @@ async function init() {
 
     // TODO validate the word
 
-    if (currentGuess === word) {
+    if (currentGuess === wordParts.join('')) {
       done = true;
       banner.classList.add('win');
       banner.textContent = "You've Won";
