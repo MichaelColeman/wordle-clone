@@ -1,15 +1,16 @@
+//attach to HTML elements
 const letters = document.querySelectorAll('.tile');
 const boardRows = document.querySelectorAll('.board-row');
 const banner = document.querySelector('.banner');
 const onscreenKeyboardButtons = document.querySelectorAll('.key');
-const ANSWER_LENGTH = 5;
-const ROUNDS = 6;
 
-async function init() {
-  //app state
+(async function init() {
+  //initialize app state
   let currentGuess = '';
   let currentRow = 0;
-  let done = false;
+  let isGameOver = false;
+  const ANSWER_LENGTH = 5;
+  const ROUNDS = 6;
 
   //grab word of the day
   const res = await fetch('https://words.dev-apis.com/word-of-the-day');
@@ -43,11 +44,11 @@ async function init() {
   });
 
   document.addEventListener('keydown', (e) => {
-    if (done) {
+    if (isGameOver) {
       return;
     }
 
-    const action = e.key;
+    const action = e.key.toUpperCase();
     switch (action) {
       case 'Enter':
         commit();
@@ -57,7 +58,7 @@ async function init() {
         break;
       default:
         if (isLetter(action)) {
-          addLetter(action.toUpperCase());
+          addLetter(action);
         } else {
           console.error('Key not recognized');
         }
@@ -165,14 +166,14 @@ async function init() {
     // TODO validate the word
 
     if (currentGuess === word) {
-      done = true;
+      isGameOver = true;
       banner.classList.add('win');
       banner.textContent = "You've Won";
       return;
     } else if (currentRow === ROUNDS) {
       banner.classList.add('lose');
       banner.textContent = 'Better luck next time!';
-      done = true;
+      isGameOver = true;
     }
 
     currentGuess = '';
@@ -192,7 +193,7 @@ async function init() {
   }
 
   function isLetter(letter) {
-    return /^[a-zA-z]$/.test(letter);
+    return /^[a-zA-Z]$/.test(letter);
   }
 
   function setTileIDs() {
@@ -200,6 +201,4 @@ async function init() {
       letter.id = `letter-${i}`;
     });
   }
-}
-
-init();
+})();
