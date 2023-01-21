@@ -27,15 +27,12 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
       switch (true) {
         case isLetter(input):
           addLetter(input.toUpperCase());
-          // console.log(input);
           break;
         case input === '↵':
           commit();
-          // console.log(`${input}: commit();`);
           break;
         case input === '←':
           backspace();
-          // console.log(`${input}: backspace();`);
           break;
         default:
           console.log('error in event listener delegation');
@@ -111,11 +108,13 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
       return;
     }
 
+    //map the letters in the solution to an object that keeps track of each instance of the letter.
+    //this is needed to properly color the tiles
+    const letterMap = makeMap(wordParts);
+    console.log(wordParts);
+    console.dir(letterMap);
     const guessParts = currentGuess.split('');
-    const map = makeMap(wordParts);
 
-    //mark the letters as correct. and when it does,
-    //it will decrement the amount of that letter remaining from the map.
     for (let i = 0; i < ANSWER_LENGTH; i++) {
       if (guessParts[i] === wordParts[i]) {
         //add color class to letter tile
@@ -127,7 +126,7 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
             key.classList.add('correct');
           }
         });
-        map[guessParts[i]]--;
+        letterMap[guessParts[i]]--;
       }
     }
 
@@ -135,7 +134,7 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
     for (let i = 0; i < ANSWER_LENGTH; i++) {
       if (guessParts[i] === wordParts[i]) {
         // do nothing
-      } else if (wordParts.includes(guessParts[i]) && map[guessParts[i]] > 0) {
+      } else if (wordParts.includes(guessParts[i]) && letterMap[guessParts[i]] > 0) {
         //add color class to letter tile
         letters[currentRow * ANSWER_LENGTH + i].classList.add('close');
 
@@ -145,7 +144,7 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
             key.classList.add('close');
           }
         });
-        map[guessParts[i]]--;
+        letterMap[guessParts[i]]--;
       } else {
         //add color class to letter tile
         letters[currentRow * ANSWER_LENGTH + i].classList.add('wrong');
@@ -162,8 +161,6 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
     }
 
     currentRow++;
-
-    // TODO validate the word
 
     if (currentGuess === word) {
       isGameOver = true;
@@ -183,6 +180,7 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
     const obj = {};
     for (let i = 0; i < array.length; i++) {
       const letter = array[i];
+      console.log(letter);
       if (obj[letter]) {
         obj[letter]++;
       } else {
