@@ -16,7 +16,7 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
   const res = await fetch('https://words.dev-apis.com/word-of-the-day');
   const resObj = await res.json();
   const word = resObj.word.toUpperCase();
-  const wordParts = word.split('');
+  const solutionLetters = word.split('');
   console.log(word);
 
   //add event listeners to onscreen keyboard buttons
@@ -110,17 +110,17 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
 
     //map the letters in the solution to an object that keeps track of each instance of the letter.
     //this is needed to properly color the tiles
-    const letterMap = makeMap(wordParts);
-    console.log(wordParts);
+    const letterMap = makeMap(solutionLetters);
+    console.log(solutionLetters);
     console.dir(letterMap);
     const guessParts = currentGuess.split('');
 
     for (let i = 0; i < ANSWER_LENGTH; i++) {
-      if (guessParts[i] === wordParts[i]) {
-        //add color class to letter tile
+      //if the letter of the players guess is in the correct tile, add the "correct" class to
+      //the tile and keyboard section
+      if (guessParts[i] === solutionLetters[i]) {
         letters[currentRow * ANSWER_LENGTH + i].classList.add('correct');
 
-        //add color class to keyboard key
         onscreenKeyboardButtons.forEach((key) => {
           if (key.dataset.key.toUpperCase() === guessParts[i]) {
             key.classList.add('correct');
@@ -130,31 +130,30 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
       }
     }
 
-    //mark the letters as close or wrong
+    //iterate through the letters in the guess and mark the letters as close or wrong
     for (let i = 0; i < ANSWER_LENGTH; i++) {
-      if (guessParts[i] === wordParts[i]) {
+      let currentLetter = guessParts[i];
+      if (currentLetter === solutionLetters[i]) {
         // do nothing
-      } else if (wordParts.includes(guessParts[i]) && letterMap[guessParts[i]] > 0) {
+      } else if (solutionLetters.includes(currentLetter) && letterMap[currentLetter] > 0) {
         //add color class to letter tile
         letters[currentRow * ANSWER_LENGTH + i].classList.add('close');
 
         //add color class to keyboard key
         onscreenKeyboardButtons.forEach((key) => {
-          if (key.dataset.key.toUpperCase() === guessParts[i]) {
+          if (key.dataset.key.toUpperCase() === currentLetter) {
             key.classList.add('close');
           }
         });
-        letterMap[guessParts[i]]--;
+        letterMap[currentLetter]--;
       } else {
         //add color class to letter tile
         letters[currentRow * ANSWER_LENGTH + i].classList.add('wrong');
 
         //add color class to keyboard key
         onscreenKeyboardButtons.forEach((key) => {
-          if (key.dataset.key === guessParts[i]) {
+          if (key.dataset.key === currentLetter) {
             key.classList.add('wrong');
-            //disable the key at this location
-            key.disabled = true;
           }
         });
       }
@@ -180,7 +179,6 @@ const onscreenKeyboardButtons = document.querySelectorAll('.key');
     const obj = {};
     for (let i = 0; i < array.length; i++) {
       const letter = array[i];
-      console.log(letter);
       if (obj[letter]) {
         obj[letter]++;
       } else {
